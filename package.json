@@ -2,7 +2,7 @@
   "version": "1.0.4",
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "quikwallet",
-  "title": "QuikWallet",
+  "title": "Quikwallet",
   "description": "View Solana wallet balances and prepare transactions",
   "icon": "extension-icon.png",
   "author": "devsargam",
@@ -14,7 +14,7 @@
   "commands": [
     {
       "name": "quik",
-      "title": "QuikWallet",
+      "title": "Quikwallet",
       "description": "View Solana wallet balances and prepare transactions",
       "mode": "view"
     }
