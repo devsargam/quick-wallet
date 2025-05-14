@@ -1,10 +1,8 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { fetchSolanaPrice } from "../services/solana";
 import { SolanaPriceData } from "../types";
 
 export function useSolanaPrice() {
-  const queryClient = useQueryClient();
-
   const {
     data: priceData = { price: 0, priceChange24h: 0 },
     isLoading,
@@ -29,4 +27,4 @@ export function useSolanaPrice() {
     isLoading,
     error: error ? error.message : null,
   };
-} 
+}

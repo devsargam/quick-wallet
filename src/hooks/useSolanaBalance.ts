@@ -1,10 +1,11 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { fetchSolanaBalance } from "../services/solana";
 import { UseSolanaBalanceReturn } from "../types";
+import { useGlobalQueryClient } from ".";
 
 export function useSolanaBalance(walletAddress: string): UseSolanaBalanceReturn {
-  const queryClient = useQueryClient();
-  
+  const queryClient = useGlobalQueryClient();
+
   const {
     data: balance,
     isLoading,
@@ -26,7 +27,6 @@ export function useSolanaBalance(walletAddress: string): UseSolanaBalanceReturn 
   });
 
   const refetch = async () => {
-    // Optimistically update the cache
     const previousData = queryClient.getQueryData<number>(["solanaBalance", walletAddress]);
     if (previousData !== undefined) {
       queryClient.setQueryData(["solanaBalance", walletAddress], previousData);
@@ -38,6 +38,6 @@ export function useSolanaBalance(walletAddress: string): UseSolanaBalanceReturn 
     balance: balance ?? null,
     isLoading,
     error: error ? error.message : null,
-    refetch
-  };  
-} 
+    refetch,
+  };
+}

@@ -1,10 +1,8 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { fetchSplTokenBalances } from "../services/solana";
 import { SplTokenBalance, UseSplTokenBalancesReturn } from "../types";
 
 export function useSplTokenBalances(walletAddress: string): UseSplTokenBalancesReturn {
-  const queryClient = useQueryClient();
-
   const {
     data: tokenBalances = [],
     isLoading,
@@ -29,4 +27,4 @@ export function useSplTokenBalances(walletAddress: string): UseSplTokenBalancesR
     isLoading,
     error: error ? error.message : null,
   };
-} 
+}

@@ -17,21 +17,28 @@ export function validateSolanaAddress(address: string): { isValid: boolean; erro
   return { isValid: true };
 }
 
-export function validateTokenAmount(amount: string, tokenDecimals: number, tokenSymbol: string): { isValid: boolean; error?: string } {
+export function validateTokenAmount(
+  amount: string,
+  tokenDecimals: number,
+  tokenSymbol: string,
+): { isValid: boolean; error?: string } {
   if (!amount) {
     return { isValid: false, error: "Amount is required." };
   }
-  
+
   const numericAmount = parseFloat(amount);
   if (isNaN(numericAmount) || numericAmount <= 0) {
     return { isValid: false, error: "Amount must be a positive number." };
   }
-  
+
   const parts = amount.split(".");
   if (parts.length > 1 && parts[1].length > tokenDecimals) {
-    return { isValid: false, error: `Amount cannot have more than ${tokenDecimals} decimal places for ${tokenSymbol}.` };
+    return {
+      isValid: false,
+      error: `Amount cannot have more than ${tokenDecimals} decimal places for ${tokenSymbol}.`,
+    };
   }
-  
+
   return { isValid: true };
 }
 
@@ -44,17 +51,17 @@ export function validateFormField<T>(
   value: T,
   validator: (value: T) => ValidationResult,
   errors: Record<string, string | undefined>,
-  fieldName: string
+  fieldName: string,
 ): boolean {
   const { isValid, error } = validator(value);
   const newErrors = { ...errors };
-  
+
   if (!isValid) {
     newErrors[fieldName] = error;
   } else {
     delete newErrors[fieldName];
   }
-  
+
   return isValid;
 }
 
@@ -73,4 +80,4 @@ export function getTokenIcon(symbol: string): { source: Icon; tintColor?: Color 
     default:
       return { source: Icon.Coin, tintColor: Color.SecondaryText };
   }
-} 
+}

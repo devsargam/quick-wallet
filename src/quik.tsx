@@ -1,20 +1,10 @@
 import { LocalStorage } from "@raycast/api";
 import { useEffect, useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./queryClient";
 import { USER_WALLET_ADDRESS_KEY } from "./constants";
 import { WalletSetupForm } from "./components/WalletSetupForm";
 import { BalancesView } from "./components/BalancesView";
-
-// Create a client
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 30000, // Consider data stale after 30 seconds
-      gcTime: 300000, // Keep unused data in cache for 5 minutes
-      retry: 2, // Retry failed requests twice
-    },
-  },
-});
 
 export default function Command() {
   const [walletAddress, setWalletAddress] = useState<string | null>(null);

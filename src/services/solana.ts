@@ -1,6 +1,6 @@
 import { Connection, PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { AccountLayout, getMint } from "@solana/spl-token";
-import { SOLANA_RPC_ENDPOINT, SPL_TOKEN_PROGRAM_ID, KNOWN_TOKENS_MAP } from "../constants";
+import { SOLANA_RPC_ENDPOINT, SPL_TOKEN_PROGRAM_ID, KNOWN_TOKENS } from "../constants";
 import { SolanaPriceData, SplTokenBalance } from "../types";
 
 const connection = new Connection(SOLANA_RPC_ENDPOINT);
@@ -8,7 +8,7 @@ const connection = new Connection(SOLANA_RPC_ENDPOINT);
 export async function fetchSolanaPrice(): Promise<SolanaPriceData> {
   try {
     const response = await fetch(
-      "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd&include_24hr_change=true"
+      "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd&include_24hr_change=true",
     );
     const data = await response.json();
     return {
@@ -42,7 +42,7 @@ export async function fetchSplTokenBalances(walletAddress: string): Promise<SplT
     const accountInfo = AccountLayout.decode(account.data);
     const mintAddress = new PublicKey(accountInfo.mint).toBase58();
 
-    const tokenInfo = KNOWN_TOKENS_MAP[mintAddress];
+    const tokenInfo = KNOWN_TOKENS[mintAddress];
     let decimals = tokenInfo?.decimals;
 
     if (decimals === undefined) {
@@ -67,8 +67,7 @@ export async function fetchSplTokenBalances(walletAddress: string): Promise<SplT
         mintAddress,
         uiAmount,
         symbol:
-          tokenInfo?.symbol ||
-          mintAddress.substring(0, 4) + "..." + mintAddress.substring(mintAddress.length - 4),
+          tokenInfo?.symbol || mintAddress.substring(0, 4) + "..." + mintAddress.substring(mintAddress.length - 4),
         name: tokenInfo?.name || "Unknown Token",
         decimals,
       });
@@ -76,4 +75,4 @@ export async function fetchSplTokenBalances(walletAddress: string): Promise<SplT
   }
 
   return fetchedBalances.sort((a, b) => b.uiAmount - a.uiAmount);
-} 
+}

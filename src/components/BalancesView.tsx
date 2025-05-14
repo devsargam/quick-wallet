@@ -1,11 +1,10 @@
 import { List, Detail, Icon, Color } from "@raycast/api";
 import { BalancesViewProps } from "../types";
-import { useSolanaBalance, useSplTokenBalances, useSolanaPrice } from "../hooks";
+import { useSolanaBalance, useSplTokenBalances, useSolanaPrice, useGlobalQueryClient } from "../hooks";
 import { useTokenPrices } from "../hooks/useTokenPrices";
 import { formatTokenBalance, getTokenIcon } from "../utils/formatters";
 import { SendForm } from "./SendForm";
 import { useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import { CommonActionPanelItems } from "./common/ActionPanelItems";
 
 function formatTimeAgo(date: Date): string {
@@ -27,7 +26,7 @@ function getPriceChangeIcon(priceChange: number): { source: Icon; tintColor: Col
 }
 
 export function BalancesView({ walletAddress, onChangeWallet }: BalancesViewProps) {
-  const queryClient = useQueryClient();
+  const queryClient = useGlobalQueryClient();
   const { balance: solBalance, isLoading: isLoadingSol, error: errorSol } = useSolanaBalance(walletAddress);
   const { tokenBalances, isLoading: isLoadingTokens, error: errorTokens } = useSplTokenBalances(walletAddress);
   const { price: solPrice, priceChange24h, isLoading: isLoadingPrice } = useSolanaPrice();

@@ -15,14 +15,18 @@ export function SendForm({ tokenSymbol, mintAddress, senderAddress, tokenDecimal
 
   function validateField(fieldName: "recipient" | "amount"): boolean {
     if (fieldName === "recipient") {
-      return validateFormField(recipientAddress, validateSolanaAddress, errors, "recipient");
+      const result = validateFormField(recipientAddress, validateSolanaAddress, errors, "recipient");
+      setErrors({ ...errors });
+      return result;
     }
-    return validateFormField(
+    const result = validateFormField(
       amount,
       (value) => validateTokenAmount(value, tokenDecimals, tokenSymbol),
       errors,
       "amount",
     );
+    setErrors({ ...errors });
+    return result;
   }
 
   function validateAllFields(): boolean {

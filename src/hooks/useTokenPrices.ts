@@ -1,45 +1,46 @@
 import { useMemo } from "react";
 import { useTokenPrice } from "./useTokenPrice";
+import { KNOWN_TOKENS } from "../constants";
 
-const KNOWN_TOKENS = {
-  USDC: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-  JITOSOL: "J1toso1uCk3RLmjorhTtrVwY9HJ7X8V9yYac6Y7kGCPn",
-  VINE: "6AJcP7wuLwmRYLBNbi825wgguaPsWzPBEHcHndpRpump",
-  PUDGY: "2zMMhcVQEXDtdE6vsFS7S7D5oUodfJHE8vd1gnBouauv",
+const KNOWN_TOKEN_MINTS = {
+  USDC: Object.keys(KNOWN_TOKENS).find((k) => KNOWN_TOKENS[k].symbol === "USDC")!,
+  JITOSOL: Object.keys(KNOWN_TOKENS).find((k) => KNOWN_TOKENS[k].symbol === "JitoSOL")!,
+  VINE: Object.keys(KNOWN_TOKENS).find((k) => KNOWN_TOKENS[k].symbol === "VINE")!,
+  PUDGY: Object.keys(KNOWN_TOKENS).find((k) => KNOWN_TOKENS[k].symbol === "PENGU")!,
 } as const;
 
 export function useTokenPrices(tokenBalances: Array<{ mintAddress: string }>) {
-  const usdcPrice = useTokenPrice(KNOWN_TOKENS.USDC);
-  const jitoSolPrice = useTokenPrice(KNOWN_TOKENS.JITOSOL);
-  const vinePrice = useTokenPrice(KNOWN_TOKENS.VINE);
-  const pudgyPrice = useTokenPrice(KNOWN_TOKENS.PUDGY);
+  const usdcPrice = useTokenPrice(KNOWN_TOKEN_MINTS.USDC);
+  const jitoSolPrice = useTokenPrice(KNOWN_TOKEN_MINTS.JITOSOL);
+  const vinePrice = useTokenPrice(KNOWN_TOKEN_MINTS.VINE);
+  const pudgyPrice = useTokenPrice(KNOWN_TOKEN_MINTS.PUDGY);
 
   const tokenPrices = useMemo(() => {
     const prices: Record<string, { price: number; priceChange24h: number; isLoading: boolean }> = {};
-    
+
     tokenBalances.forEach((token) => {
       switch (token.mintAddress) {
-        case KNOWN_TOKENS.USDC:
+        case KNOWN_TOKEN_MINTS.USDC:
           prices[token.mintAddress] = usdcPrice;
           break;
-        case KNOWN_TOKENS.JITOSOL:
+        case KNOWN_TOKEN_MINTS.JITOSOL:
           prices[token.mintAddress] = jitoSolPrice;
           break;
-        case KNOWN_TOKENS.VINE:
+        case KNOWN_TOKEN_MINTS.VINE:
           prices[token.mintAddress] = vinePrice;
           break;
-        case KNOWN_TOKENS.PUDGY:
+        case KNOWN_TOKEN_MINTS.PUDGY:
           prices[token.mintAddress] = pudgyPrice;
           break;
         default:
           prices[token.mintAddress] = { price: 0, priceChange24h: 0, isLoading: false };
       }
     });
-    
+
     return prices;
   }, [tokenBalances, usdcPrice, jitoSolPrice, vinePrice, pudgyPrice]);
 
   const isLoading = usdcPrice.isLoading || jitoSolPrice.isLoading || vinePrice.isLoading || pudgyPrice.isLoading;
 
   return { tokenPrices, isLoading };
-} 
+}
