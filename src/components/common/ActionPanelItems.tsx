@@ -3,6 +3,7 @@ import { Action, ActionPanel, Icon } from "@raycast/api";
 interface CommonActionPanelItemsProps {
   onRefresh: () => void;
   onChangeWallet: () => void;
+  onSwitchWallet: () => void;
   copyItems: Array<{ title: string; content: string }>;
   pushTarget?: React.ReactNode;
   pushTitle?: string;
@@ -11,6 +12,7 @@ interface CommonActionPanelItemsProps {
 export function CommonActionPanelItems({
   onRefresh,
   onChangeWallet,
+  onSwitchWallet,
   copyItems,
   pushTarget,
   pushTitle,
@@ -28,8 +30,14 @@ export function CommonActionPanelItems({
         shortcut={{ modifiers: ["cmd"], key: "r" }}
       />
       <Action
-        title="Change Wallet Address"
+        title="Switch Wallet"
         icon={Icon.Switch}
+        onAction={onSwitchWallet}
+        shortcut={{ modifiers: ["cmd", "shift"], key: "w" }}
+      />
+      <Action
+        title="Add New Wallet"
+        icon={Icon.Plus}
         onAction={onChangeWallet}
         shortcut={{ modifiers: ["opt"], key: "w" }}
       />

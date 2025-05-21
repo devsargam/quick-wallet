@@ -1,5 +1,7 @@
 export const SOLANA_RPC_ENDPOINT = "https://api.mainnet-beta.solana.com";
 export const USER_WALLET_ADDRESS_KEY = "userSolanaWalletAddress";
+export const USER_WALLET_ADDRESSES_KEY = "userSolanaWalletAddresses";
+export const ACTIVE_WALLET_ADDRESS_KEY = "activeWalletAddress";
 export const SPL_TOKEN_PROGRAM_ID = "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA";
 
 export const KNOWN_TOKENS: Record<string, { symbol: string; name: string; decimals?: number; coingeckoId?: string }> = {
@@ -26,5 +28,11 @@ export const KNOWN_TOKENS: Record<string, { symbol: string; name: string; decima
     name: "Pudgy Penguins",
     decimals: 6,
     coingeckoId: "pudgy-penguins",
+  },
+  SENDdRQtYMWaQrBroBrJ2Q53fgVuq95CV9UPGEvpCxa: {
+    symbol: "SEND",
+    name: "Sendcoin",
+    decimals: 6,
+    coingeckoId: "send-2",
   },
 };

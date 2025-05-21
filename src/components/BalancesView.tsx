@@ -24,7 +24,7 @@ function getPriceChangeIcon(priceChange: number): { source: Icon; tintColor: Col
   return undefined;
 }
 
-export function BalancesView({ walletAddress, onChangeWallet }: BalancesViewProps) {
+export function BalancesView({ walletAddress, onChangeWallet, onSwitchWallet }: BalancesViewProps) {
   const queryClient = useGlobalQueryClient();
   const { balance: solBalance, isLoading: isLoadingSol, error: errorSol } = useSolanaBalance(walletAddress);
   const { tokenBalances, isLoading: isLoadingTokens, error: errorTokens } = useSplTokenBalances(walletAddress);
@@ -131,6 +131,7 @@ export function BalancesView({ walletAddress, onChangeWallet }: BalancesViewProp
               <CommonActionPanelItems
                 onRefresh={handleRefresh}
                 onChangeWallet={onChangeWallet}
+                onSwitchWallet={onSwitchWallet}
                 copyItems={[
                   { title: "Copy Balance", content: solBalance.toString() },
                   { title: "Copy USD Value", content: `$${formatTokenBalance(solBalance * solPrice, 2)}` },
@@ -175,6 +176,7 @@ export function BalancesView({ walletAddress, onChangeWallet }: BalancesViewProp
                 <CommonActionPanelItems
                   onRefresh={handleRefresh}
                   onChangeWallet={onChangeWallet}
+                  onSwitchWallet={onSwitchWallet}
                   copyItems={[
                     { title: "Copy Balance", content: token.uiAmount.toString() },
                     ...(tokenPrice > 0
