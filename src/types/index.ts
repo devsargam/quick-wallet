@@ -27,12 +27,13 @@ export interface SendFormProps {
 }
 
 export interface WalletSetupFormProps {
-  onWalletSet: (address: string) => void;
+  onWalletSet: (wallet: WalletInfo) => void;
 }
 
 export interface BalancesViewProps {
   walletAddress: string;
   onChangeWallet: () => void;
+  onSwitchWallet: () => void;
 }
 
 export interface SolanaPriceData {
@@ -43,4 +44,18 @@ export interface SolanaPriceData {
 export interface TokenPriceData {
   price: number;
   priceChange24h: number;
+}
+
+
+export interface WalletInfo {
+  address: string;
+  name?: string;
+}
+
+export interface WalletSelectorProps {
+  wallets: WalletInfo[];
+  activeWallet: WalletInfo | null;
+  onSelectWallet: (wallet: WalletInfo) => void;
+  onAddWallet: () => void;
+  onDeleteWallet: (address: string) => void;
 }

@@ -7,6 +7,7 @@ const KNOWN_TOKEN_MINTS = {
   JITOSOL: Object.keys(KNOWN_TOKENS).find((k) => KNOWN_TOKENS[k].symbol === "JitoSOL")!,
   VINE: Object.keys(KNOWN_TOKENS).find((k) => KNOWN_TOKENS[k].symbol === "VINE")!,
   PUDGY: Object.keys(KNOWN_TOKENS).find((k) => KNOWN_TOKENS[k].symbol === "PENGU")!,
+  SEND: Object.keys(KNOWN_TOKENS).find((k) => KNOWN_TOKENS[k].symbol === "SEND")!,
 } as const;
 
 export function useTokenPrices(tokenBalances: Array<{ mintAddress: string }>) {
@@ -14,6 +15,7 @@ export function useTokenPrices(tokenBalances: Array<{ mintAddress: string }>) {
   const jitoSolPrice = useTokenPrice(KNOWN_TOKEN_MINTS.JITOSOL);
   const vinePrice = useTokenPrice(KNOWN_TOKEN_MINTS.VINE);
   const pudgyPrice = useTokenPrice(KNOWN_TOKEN_MINTS.PUDGY);
+  const sendPrice = useTokenPrice(KNOWN_TOKEN_MINTS.SEND);
 
   const tokenPrices = useMemo(() => {
     const prices: Record<string, { price: number; priceChange24h: number; isLoading: boolean }> = {};
@@ -32,15 +34,19 @@ export function useTokenPrices(tokenBalances: Array<{ mintAddress: string }>) {
         case KNOWN_TOKEN_MINTS.PUDGY:
           prices[token.mintAddress] = pudgyPrice;
           break;
+        case KNOWN_TOKEN_MINTS.SEND:
+          prices[token.mintAddress] = sendPrice;
+          break;
         default:
           prices[token.mintAddress] = { price: 0, priceChange24h: 0, isLoading: false };
       }
     });
 
     return prices;
-  }, [tokenBalances, usdcPrice, jitoSolPrice, vinePrice, pudgyPrice]);
+  }, [tokenBalances, usdcPrice, jitoSolPrice, vinePrice, pudgyPrice, sendPrice]);
 
-  const isLoading = usdcPrice.isLoading || jitoSolPrice.isLoading || vinePrice.isLoading || pudgyPrice.isLoading;
+  const isLoading =
+    usdcPrice.isLoading || jitoSolPrice.isLoading || vinePrice.isLoading || pudgyPrice.isLoading || sendPrice.isLoading;
 
   return { tokenPrices, isLoading };
 }

@@ -59,7 +59,14 @@ export function getTokenIcon(symbol: string): { source: Icon; tintColor?: Color 
       return { source: Icon.Leaf, tintColor: Color.Green };
     case "PUDGY":
       return { source: Icon.Star, tintColor: Color.Yellow };
+    case "SEND":
+      return { source: Icon.Coin, tintColor: Color.Red };
     default:
       return { source: Icon.Coin, tintColor: Color.SecondaryText };
   }
+}
+
+export function formatSolanaAddress(address: string): string {
+  if (!address || address.length < 10) return address;
+  return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
 }
